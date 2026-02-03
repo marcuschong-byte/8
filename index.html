@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Will You Be My Valentine? 💖</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: pink;
+    font-family: 'Comic Sans MS', cursive;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 🤍 WHITE CARD */
+  .container {
+    position: relative;
+    background: white;
+    width: 360px;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    z-index: 2;
+  }
+
+  /* 🌸 FLOWER FRAME */
+  .flower {
+    position: absolute;
+    pointer-events: none;
+    font-size: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .flower.top, .flower.bottom {
+    left: -10px;
+    right: -10px;
+    height: 30px;
+  }
+
+  .flower.top { top: -35px; }
+  .flower.bottom { bottom: -35px; }
+
+  .flower.left, .flower.right {
+    top: -10px;
+    bottom: -10px;
+    width: 30px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .flower.left { left: -35px; }
+  .flower.right { right: -35px; }
+
+  h1 {
+    color: #e75480;
+    margin-bottom: 15px;
+  }
+
+  button {
+    padding: 10px 22px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    margin: 10px;
+    cursor: pointer;
+  }
+
+  .yes {
+    background: #ff69b4;
+    color: white;
+  }
+
+  .no {
+    background: #aaa;
+    color: white;
+    position: absolute;
+  }
+
+  img {
+    width: 200px;
+    margin-top: 15px;
+    border-radius: 10px;
+  }
+
+  #result {
+    display: none;
+  }
+
+  /* 🌧️ RAIN */
+  .rain {
+    position: fixed;
+    top: -40px;
+    animation: fall linear forwards;
+    z-index: 5;
+  }
+
+  @keyframes fall {
+    from { transform: translateY(0); }
+    to { transform: translateY(120vh); }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- 🌸 FLOWERS -->
+  <div class="flower top"></div>
+  <div class="flower bottom"></div>
+  <div class="flower left"></div>
+  <div class="flower right"></div>
+
+  <h1>Will you be my Valentine? 💖</h1>
+
+  <button class="yes" onclick="yesClicked()">Yes</button>
+  <button class="no" id="noBtn">No</button>
+
+  <div id="result">
+    <h2>YESSSSSSS!!! 💕🎉</h2>
+    <img src="images/roderick.webp">
+  </div>
+
+  <img id="donkey" src="images/donkey.gif" alt="Donkey">
+
+</div>
+
+<script>
+  /* 🌸 FILL FLOWERS */
+  document.querySelectorAll(".flower").forEach(f => {
+    for (let i = 0; i < 40; i++) f.innerHTML += "🌸";
+  });
+
+  /* 🌧️ CONTINUOUS RAIN */
+  let rainLoop;
+  function startRain(emojis) {
+    rainLoop = setInterval(() => {
+      for (let i = 0; i < 5; i++) {
+        const drop = document.createElement("div");
+        drop.className = "rain";
+        drop.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        drop.style.left = Math.random() * 100 + "vw";
+        drop.style.fontSize = Math.random() * 24 + 20 + "px";
+        drop.style.animationDuration = Math.random() * 3 + 4 + "s";
+        document.body.appendChild(drop);
+        setTimeout(() => drop.remove(), 8000);
+      }
+    }, 300);
+  }
+
+  /* 💘 YES */
+  function yesClicked() {
+    document.getElementById("donkey").style.display = "none";
+    document.getElementById("result").style.display = "block";
+    startRain(["☁️", "💖", "💕", "💞"]);
+  }
+
+  /* 😈 ESCAPING NO */
+  const noBtn = document.getElementById("noBtn");
+  const container = document.querySelector(".container");
+
+  noBtn.addEventListener("mouseenter", () => {
+    const maxX = container.clientWidth - noBtn.offsetWidth;
+    const maxY = container.clientHeight - noBtn.offsetHeight;
+
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+
+    document.getElementById("donkey").style.display = "none";
+  });
+</script>
+
+</body>
+</html>
